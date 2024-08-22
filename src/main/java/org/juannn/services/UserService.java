@@ -1,9 +1,9 @@
 package org.juannn.services;
 
+import org.juannn.data_structures.SingleLinkedList;
 import org.juannn.models.User;
 import org.juannn.repository.UserRepository;
 
-import java.util.List;
 
 public class UserService {
 
@@ -17,7 +17,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<User> findAll(){
+    public SingleLinkedList<User> findAll(){
         return userRepository.findAll();
     }
 }

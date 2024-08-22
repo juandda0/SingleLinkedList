@@ -1,28 +1,24 @@
 package org.juannn.repository.impl;
 
+import org.juannn.data_structures.SingleLinkedList;
 import org.juannn.models.User;
 import org.juannn.repository.UserRepository;
-import org.juannn.models.Node;
+import org.juannn.data_structures.Node;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
 
-    private Node head;
+    SingleLinkedList<User> userList;
+
+    public UserRepositoryImpl(SingleLinkedList<User> userList){
+        this.userList = userList;
+    }
 
     @Override
     public void save(User user) {
-        Node newNode = new Node(user);
-        if (head == null) {
-            head = newNode;
-        }else{
-            Node current = head;
-            while (current.getNext() != null){
-                current = current.getNext();
-            }
-            current.setNext(newNode);
-        }
+        userList.add(user);
     }
 
     @Override
@@ -31,14 +27,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findAll() {
-        List<User> users = new ArrayList<>();
-        Node current = head;
-        while (current != null) {
-            users.add((User) current.getElement());
-            current = current.getNext();
-        }
-        return users;
+    public SingleLinkedList<User> findAll() {
+        return userList;
     }
 
     @Override
