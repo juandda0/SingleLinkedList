@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class SingleLinkedList<T> implements Iterable<T> {
 
-    private org.juannn.data_structures.Node<T> head;
+    private Node<T> head;
     private Node<T> tail;
 
     public SingleLinkedList() {
@@ -65,7 +65,7 @@ public class SingleLinkedList<T> implements Iterable<T> {
     // Remove the first element from the list
     public T removeFirst() {
         if (isEmpty()) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("The list is empty.");
         }
         T element = head.getElement();
         head = head.getNextNode();
@@ -78,7 +78,7 @@ public class SingleLinkedList<T> implements Iterable<T> {
     // Remove the last element from the list
     public T removeLast() {
         if (isEmpty()) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("The list is empty.");
         }
         T element = tail.getElement();
         if (head == tail) { // Only one element in the list
@@ -95,11 +95,38 @@ public class SingleLinkedList<T> implements Iterable<T> {
         return element;
     }
 
+    // Removes a specific element from the list
+    public T remove(T element) {
+        if (isEmpty()) {
+            throw new NoSuchElementException("List is empty");
+        }
+
+        if (element.equals(head.getElement())) {
+            return removeFirst();
+        }
+
+        Node<T> current = head;
+        while (current != null) {
+            if (element.equals(current.getElement())) {
+                if (current == tail) {
+                    return removeLast();
+                } else {
+                    Node<T> prev = current.getPrevNode();
+                    Node<T> next = current.getNextNode();
+                    prev.setNextNode(next);
+                    next.setPrevNode(prev);
+                    return element;
+                }
+            }
+            current = current.getNextNode();
+        }
+        throw new NoSuchElementException("Element not found");
+    }
+
     // Iterator implementation for the list
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-
             private Node<T> current = head;
 
             @Override
